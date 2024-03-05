@@ -23,13 +23,7 @@ public class SystemApp {
 			UserDAO userDao = new UserDAO(session);
 			
 			
-			UserDTO user1 = new UserDTO("Rahul","rahul@123","HYD",84938);
-			UserDTO user2 = new UserDTO("Virat","virat@123","MBNGR",90965);
-			UserDTO user3 = new UserDTO("Rohit","rohit@123","Pune",64490);
-				
-			    userDao.saveUser(user1);
-				userDao.saveUser(user2);
-				userDao.saveUser(user3);
+			
 				
 				
 				

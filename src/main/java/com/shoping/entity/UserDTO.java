@@ -25,12 +25,16 @@ public class UserDTO {
 	private String address;
 	@Column(name = "phoneNumber")
 	private int phoneNumber;
-
-	// Default Constructor
-	public UserDTO() {
-	}
-
+	
 	@OneToMany
 	private List<OrderDTO> orders = new ArrayList<>();
+	
+	
+	// Default Constructor
+	public UserDTO() {}
+	
+	
+
+	
 	
 }
