@@ -1,0 +1,30 @@
+<!DOCTYPE hibernate-configuration PUBLIC
+  "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+  "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+  <session-factory>
+  
+    <!-- Database connection settings -->
+    <property name="hibernate.connection.driver_class">com.mysql.cj.jdbc.Driver</property>
+    <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/onlineshopping</property>
+    <property name="hibernate.connection.username">root</property>
+    <property name="hibernate.connection.password">Harini@123</property>
+    <property name="hibernate.current_session_context_class">thread</property>
+
+    <!-- JDBC connection pool settings -->
+    <property name="hibernate.c3p0.min_size">5</property>
+    <property name="hibernate.c3p0.max_size">20</property>
+    
+    <!-- Other Hibernate properties -->
+    <property name="hibernate.dialect">org.hibernate.dialect.MySQL8Dialect</property>
+    <property name="hibernate.show_sql">true</property>
+    <property name="hibernate.hbm2ddl.auto">update</property>
+    <mapping class="com.shopping.entity.User"/>
+    <mapping class="com.shopping.entity.Review"/>
+    <mapping class="com.shopping.entity.Orders"/>
+    <mapping class="com.shopping.entity.Product"/>
+    <mapping class="com.shopping.entity.Category"/>
+    <mapping class="com.shopping.entity.OrderDetail"/>
+    
+  </session-factory>
+</hibernate-configuration>
