@@ -1,14 +1,12 @@
 package com.shopping.entity;
 
 import java.time.LocalDate;
-import java.util.List;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+
 
 import org.hibernate.annotations.ColumnDefault;
 
@@ -124,6 +122,16 @@ public class Orders {
 	public void setUser(User user) {
 		this.user = user;
 	}
+
+
+
+	@Override
+	public String toString() {
+		return "Orders [orderId=" + orderId + ", orderDate=" + orderDate + ", totalAmount=" + totalAmount
+				+ ", shippingAddress=" + shippingAddress + ", paymentMethod=" + paymentMethod + ", orderStatus="
+				+ orderStatus + ", status=" + status + ", user=" + user + "]";
+	}
+	
 
 	
 

@@ -79,4 +79,11 @@ public class Review {
 		this.user = user;
 	}
 
+	@Override
+	public String toString() {
+		return "Review [reviewId=" + reviewId + ", rating=" + rating + ", comments=" + comments + ", status=" + status
+				+ ", user=" + user + "]";
+	}
+	
+
 }

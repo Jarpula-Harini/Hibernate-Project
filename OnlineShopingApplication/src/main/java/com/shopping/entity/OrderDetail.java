@@ -76,4 +76,11 @@ public class OrderDetail {
 		this.status = status;
 	}
 
+	@Override
+	public String toString() {
+		return "OrderDetail [orderDetailId=" + orderDetailId + ", quantity=" + quantity + ", product=" + product
+				+ ", order=" + order + ", status=" + status + "]";
+	}
+	
+
 }
