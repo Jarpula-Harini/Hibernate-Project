@@ -9,18 +9,19 @@ public class MainOperations {
 	public static void main(String[] args) {
 
 		while (true) {
-			System.out.println("Welcome to Online Shopping Application \n 1.Add User Details\n 2.Add Order Details\n 3.Add Product Details\n 4.Add Review Details\n 5.Add Category Details\n 6.Add OrderDetail-Details");
+			System.out.println(
+					"Welcome To Online Shopping Application \n 1.User Details\n 2.Orders Details\n 3.Product Details\n 4.Review Details\n 5.Category Details\n 6.OrderDetail-Details\n 7.Exit the Application");
 
 			int input = sacnner.nextInt();
 			switch (input) {
 
 			case 1:
-			AllOperation.userOperations();
+				AllOperation.userOperations();
 				System.out.println("==============================");
 				break;
 
 			case 2:
-				AllOperation.orderOperations();
+				AllOperation.ordersOperations();
 				System.out.println("==============================");
 
 			case 3:
@@ -42,22 +43,18 @@ public class MainOperations {
 				AllOperation.orderDetailOperations();
 				System.out.println("==============================");
 				break;
-				
+
 			case 7:
 				System.out.println("Exiting Online Shopping Application...");
 				System.exit(0);
 				break;
-				
-				default:
-					System.out.println("Invalid Option.Please Choose again"); 
+
+			default:
+				System.out.println("Invalid Option.Please Choose again");
 
 			}
 		}
 
 	}
-
-	
-
-	
 
 }
