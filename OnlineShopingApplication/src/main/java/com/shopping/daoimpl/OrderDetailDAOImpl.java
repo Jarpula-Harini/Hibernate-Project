@@ -12,12 +12,13 @@ import com.shopping.util.HibernateUtil;
 public class OrderDetailDAOImpl implements OrderDetailDao {
 
 	public boolean createOrderDetail(OrderDetail order) {
+		
 
 		try (Session session = HibernateUtil.getSession()) {
 			session.beginTransaction();
 			session.save(order);
 			session.getTransaction().commit();
-			session.clear();
+			
 
 			return true;
 		} catch (HibernateException ex) {
@@ -47,14 +48,14 @@ public class OrderDetailDAOImpl implements OrderDetailDao {
 
 	public boolean updateOrderDetail(int orderDetailId, OrderDetail updatedOrderDetail) {
 		try (Session session = HibernateUtil.getSession()) {
+			session.beginTransaction();
 
 			OrderDetail existOrderDetail = session.load(OrderDetail.class, orderDetailId);
 
 			existOrderDetail.setProduct(updatedOrderDetail.getProduct());
 			existOrderDetail.setQuantity(updatedOrderDetail.getQuantity());
-			
+			existOrderDetail.setOrder(updatedOrderDetail.getOrder());
 
-			session.beginTransaction();
 			session.saveOrUpdate(existOrderDetail);
 			session.getTransaction().commit();
 			return true;
@@ -70,14 +71,16 @@ public class OrderDetailDAOImpl implements OrderDetailDao {
 
 	public boolean deleteOrderDetail(int orderDetailId) {
 		try (Session session = HibernateUtil.getSession()) {
+			session.beginTransaction();
 
 			OrderDetail orderDetail = session.get(OrderDetail.class, orderDetailId);
-			session.beginTransaction();
+			
 			if (orderDetail != null) {
-				session.delete(orderDetail);
-				
+				orderDetail.setStatus('A');
+				session.saveOrUpdate(orderDetail);
+
 				return true;
-				
+
 			} else {
 				System.out.println("orderDetail details not found!!");
 			}
@@ -87,17 +90,17 @@ public class OrderDetailDAOImpl implements OrderDetailDao {
 		} catch (Exception e) {
 			System.out.println("Exception is: " + e);
 		}
-		
+
 		return false;
 	}
-	
-	public List<OrderDetail> getAllOrderDetail(){
-		
+
+	public List<OrderDetail> getAllOrderDetail() {
+
 		Session session = HibernateUtil.getSession();
-		
+
 		List<OrderDetail> orderDetailList = session.createQuery("from OrderDetail", OrderDetail.class).getResultList();
 		return orderDetailList;
-		
+
 	}
 
 }

@@ -1,6 +1,5 @@
 package com.shopping.daoimpl;
 
-
 import java.util.List;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -10,27 +9,26 @@ import com.shopping.entity.User;
 import com.shopping.util.HibernateUtil;
 
 public class UserDAOImpl implements UserDao {
-	
 
-	public boolean createUser(User userdto) {
-		try(Session session = HibernateUtil.getSession()){
+	public boolean createUser(User user) {
+		try (Session session = HibernateUtil.getSession()) {
 			session.beginTransaction();
-			session.save(userdto);
+			session.save(user);
 			session.getTransaction().commit();
-			
+
 			return true;
-	       }catch(HibernateException e) {
+		} catch (HibernateException e) {
 			System.out.println("Hibernate Exception:" + e);
-			
-		}catch(Exception e) {
+
+		} catch (Exception e) {
 			System.out.println("Exception:" + e);
 		}
 		return false;
-	}//end
-	
+	}// end
+
 	public User getUserById(String userId) {
-		
-		try (Session session=HibernateUtil.getSession()){
+
+		try (Session session = HibernateUtil.getSession()) {
 
 			User users = session.get(User.class, userId);
 
@@ -44,22 +42,19 @@ public class UserDAOImpl implements UserDao {
 
 		return null;
 	}
-	
-	public boolean updateUser(String userId,User user) {
-		
-		try (Session session=HibernateUtil.getSession()){
 
-			User existUser = session.load( User.class,  userId);
+	public boolean updateUser(String userId, User user) {
+
+		try (Session session = HibernateUtil.getSession()) {
+
+			User existUser = session.load(User.class, userId);
 
 			existUser.setUserName(user.getUserName());
 			existUser.setPassWord(user.getPassWord());
 			existUser.setAddress(user.getAddress());
 			existUser.setPhoneNumber(user.getPhoneNumber());
-			//existUser.setStatus(user.getStatus());
-			
-          
-			
-			
+			// existUser.setStatus(user.getStatus());
+
 			session.beginTransaction();
 			session.saveOrUpdate(existUser);
 			session.getTransaction().commit();
@@ -76,35 +71,36 @@ public class UserDAOImpl implements UserDao {
 
 	@Override
 	public boolean deleteUser(String userId) {
-      try (Session session=HibernateUtil.getSession()){
-			
-    	  User user = session.get(User.class, userId);
-				session.beginTransaction();
-				if (user != null) {
-					session.delete(user);
-					return true;
-					
-				} else {
-					System.out.println("User details not found!!");
-				}
+		try (Session session = HibernateUtil.getSession()) {
+			session.beginTransaction();
+			User user = session.get(User.class, userId);
 
-			} catch (HibernateException e) {
-				System.out.println("Hibernate exception is: " + e);
-			} catch (Exception e) {
-				System.out.println("Exception is: " + e);
+			if (user != null) {
+				user.setStatus('I');
+
+				session.saveOrUpdate(user);
+				session.getTransaction().commit();
+				return true;
+
+			} else {
+				System.out.println("User details not found!!");
 			}
-      return false;
-		
+
+		} catch (HibernateException e) {
+			System.out.println("Hibernate exception is: " + e);
+		} catch (Exception e) {
+			System.out.println("Exception is: " + e);
+		}
+		return false;
+
 	}
 
 	@Override
 	public List<User> getAllUsers() {
-		 Session session = HibernateUtil.getSession();
-			
-			List<User> userList = session.createQuery("from User", User.class).getResultList();
-			return userList;
+		Session session = HibernateUtil.getSession();
+
+		List<User> userList = session.createQuery("from User", User.class).getResultList();
+		return userList;
 	}
 
-	
-	
 }

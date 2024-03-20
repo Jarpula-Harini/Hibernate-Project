@@ -5,36 +5,38 @@ import java.util.List;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 
-import com.shopping.dao.CategoryDao;
-import com.shopping.entity.Category;
+import com.shopping.dao.OrdersDao;
+import com.shopping.entity.Orders;
 import com.shopping.util.HibernateUtil;
 
-public class CategoryDAOImpl implements CategoryDao {
+public class OrdersDAOImpl implements OrdersDao {
 
-	public boolean createCategory(Category category) {
+	public boolean createOrder(Orders order) {
 
 		try (Session session = HibernateUtil.getSession()) {
+
 			session.beginTransaction();
-			session.save(category);
+			session.save(order);
 			session.getTransaction().commit();
 			session.clear();
 
 			return true;
-		} catch (HibernateException ex) {
 
+		} catch (HibernateException ex) {
 			System.out.println("HibernateException:" + ex);
 		} catch (Exception e) {
 			System.out.println("Exception:" + e);
 		}
 		return false;
-	}//
 
-	public Category getCategoryById(String categoryId) {
+	}
+
+	public Orders getOrderById(String orderId) {
 		try (Session session = HibernateUtil.getSession()) {
 
-			Category category = session.get(Category.class, categoryId);
+			Orders order = session.get(Orders.class, orderId);
 
-			return category;
+			return order;
 		} catch (HibernateException e) {
 			System.out.println("HibernateException:" + e);
 		} catch (Exception ex) {
@@ -43,17 +45,23 @@ public class CategoryDAOImpl implements CategoryDao {
 		}
 
 		return null;
-	}
 
-	public boolean updateCategory(String categoryId, Category category) {
+	}//
+
+	public boolean updateOrder(String orderId, Orders order) {
 		try (Session session = HibernateUtil.getSession()) {
 			session.beginTransaction();
 
-			Category existCategory = session.load(Category.class, categoryId);
+			Orders existOrder = session.load(Orders.class, orderId);
 
-			existCategory.setCategoryName(category.getCategoryName());
+			existOrder.setOrderDate(order.getOrderDate());
+			existOrder.setTotalAmount(order.getTotalAmount());
+			existOrder.setShippingAddress(order.getShippingAddress());
+			existOrder.setPaymentMethod(order.getPaymentMethod());
+			existOrder.setStatus(order.getStatus());
+			existOrder.setUser(order.getUser());
 
-			session.saveOrUpdate(existCategory);
+			session.saveOrUpdate(existOrder);
 			session.getTransaction().commit();
 			return true;
 
@@ -66,17 +74,19 @@ public class CategoryDAOImpl implements CategoryDao {
 		return false;
 	}//
 
-	public boolean deleteCategory(String categoryId) {
+	public boolean deleteOrder(String orderId) {
+
 		try (Session session = HibernateUtil.getSession()) {
-			Category category = session.get(Category.class, categoryId);
+
+			Orders order = session.get(Orders.class, orderId);
 			session.beginTransaction();
-			if (category != null) {
-				category.setStatus('I');
-				session.saveOrUpdate(category);
+			if (order != null) {
+				order.setStatus('I');
+				session.saveOrUpdate(order);
 				session.getTransaction().commit();
 				return true;
 			} else {
-				System.out.println("Category details not found!!");
+				System.out.println("Orders details not found!!");
 			}
 
 		} catch (HibernateException e) {
@@ -85,22 +95,25 @@ public class CategoryDAOImpl implements CategoryDao {
 			System.out.println("Exception is: " + e);
 		}
 		return false;
+
 	}//
 
-	public List<Category> getAllCategory() {
+	public List<Orders> getAllOrders() {
 		Session session = HibernateUtil.getSession();
 
-		List<Category> categoryList = session.createQuery("from Category", Category.class).getResultList();
-		return categoryList;
+		List<Orders> orderList = session.createQuery("from Orders", Orders.class).getResultList();
+		return orderList;
+
 	}
 
 	/*
-	 * @Override public Category getCategoryByProductId(String productId) { try
-	 * (Session session=HibernateUtil.getSession()){
+	 * @Override public Order getOrderByUserId(String userId) {
 	 * 
-	 * Category category = session.get(Category.class, productId);
+	 * try (Session session=HibernateUtil.getSession()){
 	 * 
-	 * return category ; } catch (HibernateException e) {
+	 * Order order = session.get(Order.class, userId);
+	 * 
+	 * return order; } catch (HibernateException e) {
 	 * System.out.println("HibernateException:" + e); } catch (Exception ex) {
 	 * System.out.println("Exception:" + ex);
 	 * 
@@ -109,8 +122,10 @@ public class CategoryDAOImpl implements CategoryDao {
 	 * return null;
 	 * 
 	 * 
-	 * 
 	 * }
+	 * 
+	 * 
+	 * 
 	 */
 
 }

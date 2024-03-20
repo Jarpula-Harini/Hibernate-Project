@@ -15,7 +15,7 @@ public class ProductDAOImpl implements ProductDao {
 		try (Session session=HibernateUtil.getSession()){
 			
 			session.beginTransaction();
-			session.save(session);
+			session.save(product);
 			session.getTransaction().commit();
 			session.clear();
 			
@@ -50,6 +50,7 @@ public class ProductDAOImpl implements ProductDao {
 	
 	public boolean updateProduct (String productId,Product product) {
 		try (Session session=HibernateUtil.getSession()){
+			session.beginTransaction();
 
 			 Product existProduct = session.load( Product.class,  productId);
 
@@ -60,7 +61,6 @@ public class ProductDAOImpl implements ProductDao {
             existProduct.setCategory(product.getCategory());
 			
 			
-			session.beginTransaction();
 			session.saveOrUpdate(existProduct);
 			session.getTransaction().commit();
 			return true;
@@ -80,7 +80,9 @@ public class ProductDAOImpl implements ProductDao {
 	     Product product = session.get(Product.class, productId);
 			session.beginTransaction();
 			if (product != null) {
-				session.delete(product);
+				product.setStatus('I');
+				session.saveOrUpdate(product);
+				session.getTransaction().commit();
 				
 				return true;
 			} else {
